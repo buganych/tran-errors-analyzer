@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Gk/isJ/qi7lFcEvqvQ+7gERjDkE6hCNCrh2MuIc51+s=' 'sha256-eoD+c3zip/oTlst5JnEow99nfSE5ft3ZxrefIWXu70c=' 'sha256-hCHEmRrBCL2HUvmIFTuc4RQsCQiHFUvsp1EWn/rTMR8=' 'sha256-D6JYBnZml3f4alcPt8RJ3rlr0mqKDb8iBFLVeuEdgqQ='; style-src 'sha256-s54oZxxQ6U/ZR/5c6u7FK0CKHrRQkuk/VRW71DtWvi8='; img-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Контекст · Поиск транзакций 1С</title>
+<style>:root{--bg:#f4f5f2;--surface:#fff;--surface-soft:#f8f9f7;--text:#202c29;--muted:#728079;--border:#dfe5df;--accent:#20604c;--accent-hover:#154b3a;--accent-light:#e9f2ed;--red:#b74638;--red-bg:#fff1ed;--amber:#8f691e;--mono:Consolas,"Cascadia Code","Courier New",monospace;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);background:var(--bg);font-synthesis:none;color-scheme:light}
+*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button,a,label.button{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:default;opacity:.42}a{color:var(--accent)}button:focus-visible,a:focus-visible,textarea:focus-visible,label.button:focus-within{outline:3px solid #80bba2;outline-offset:3px}button{color:inherit}button,label,a{touch-action:manipulation}[hidden]{display:none!important}.topbar{height:70px;padding:0 38px;display:flex;justify-content:space-between;align-items:center;background:var(--surface);border-bottom:1px solid var(--border)}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);font-size:20px;font-weight:650;letter-spacing:-.5px}.brand-icon{background:var(--accent);color:white;border-radius:9px;display:grid;place-items:center;width:34px;height:34px;font:25px var(--mono)}.brand-divider{font-size:19px;font-weight:400;color:#bcc7bf;margin:0 13px}.brand-subtitle{color:var(--muted);font-size:13px;font-weight:400;letter-spacing:0}.header-right{display:flex;align-items:center;gap:24px}.local-label{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}.status-dot{width:6px;height:6px;background:#3d8c66;border-radius:50%}.icon-button{border:1px solid var(--border);border-radius:50%;background:transparent;width:28px;height:28px;font-size:14px;color:var(--muted)}main{max-width:1580px;margin:auto;padding:32px 38px 0}.page-intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:24px}.eyebrow{font-size:10px;letter-spacing:1.8px;color:var(--accent);font-weight:650;margin:0 0 10px}h1{font-size:29px;letter-spacing:-.8px;font-weight:600;margin:0 0 8px}.subtitle{font-size:13px;line-height:1.5;color:var(--muted);margin:0}.button{display:inline-flex;align-items:center;justify-content:center;gap:22px;min-height:40px;padding:10px 16px;border:1px solid transparent;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}.secondary{background:var(--surface);border-color:var(--border);color:var(--text)}.secondary:hover{background:var(--surface-soft);border-color:#b5c5bb}.primary{background:var(--accent);color:#fff}.primary:not(:disabled):hover{background:var(--accent-hover)}.button span{font-size:17px;font-weight:400}.input-panel{display:grid;grid-template-columns:300px 1fr;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px}.folder-panel{padding:21px 24px;background:var(--surface-soft);border-right:1px solid var(--border);text-align:center}.section-label{display:flex;align-items:center;gap:9px;text-align:left;font-size:12px;font-weight:600}.step{font:10px var(--mono);color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:4px 5px;background:var(--surface)}.folder-illustration{color:#8aa294;margin:17px 0 6px}.folder-name{font-size:13px;font-weight:600;line-height:1.4;margin:0 0 6px;overflow-wrap:anywhere}.muted{color:var(--muted)}.small{font-size:11px;line-height:1.6}.folder-panel .muted{margin:0 0 12px}.folder-button{padding:8px 15px;min-height:34px}.privacy-note{font-size:10px;color:var(--muted);margin:11px 0 0}#folder{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.folder-panel:has(#folder:focus-visible) .folder-button{outline:3px solid #80bba2;outline-offset:3px}.context-panel{padding:21px 24px 17px;min-width:0}.context-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.text-button{font-size:11px;background:none;border:0;padding:5px 1px;color:var(--muted);white-space:nowrap}.text-button:not(:disabled):hover{color:var(--accent)}textarea{display:block;width:100%;height:131px;resize:vertical;border:1px solid var(--border);border-radius:5px;background:var(--surface-soft);padding:13px 15px;color:var(--text);font:12px/1.8 var(--mono);tab-size:4;min-height:90px}textarea::placeholder{color:#99a59d}.input-actions{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:12px}.input-actions p{margin:0}kbd{font:10px var(--mono);border:1px solid var(--border);border-radius:3px;padding:0 3px;background:var(--surface)}.notice{margin:0 0 18px;padding:12px 16px;border:1px solid var(--border);border-radius:6px;font-size:12px;line-height:1.5;background:var(--accent-light);color:var(--accent)}.notice.error{background:var(--red-bg);border-color:#f0c8bf;color:var(--red)}.results-panel,.code-panel{border:1px solid var(--border);border-radius:9px;background:var(--surface);overflow:hidden;margin-bottom:20px}.panel-toolbar{min-height:56px;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px}.panel-title{display:flex;align-items:center;gap:9px;min-width:0}h2{margin:0;font-size:13px;font-weight:600}h3{font-size:13px;margin-top:24px}.count{font:10px var(--mono);color:var(--muted);border:1px solid var(--border);border-radius:4px;min-width:22px;text-align:center;padding:3px 5px}.results-actions{display:flex;gap:20px;align-items:center}.table-wrap{overflow:auto;max-height:315px;min-height:180px;border-top:1px solid var(--border);position:relative}table{border-collapse:separate;border-spacing:0;width:100%;text-align:left;font-size:11px;min-width:1070px}th{font-size:10px;letter-spacing:.1px;color:var(--muted);font-weight:500;white-space:nowrap;padding:11px 13px;border-bottom:1px solid var(--border);background:var(--surface-soft);position:sticky;top:0;z-index:1}th:first-child,td:first-child{padding-left:20px;width:40px;color:var(--muted);font:10px var(--mono)}th.module-column{width:40%;min-width:315px}abbr{text-decoration:underline dotted #aab8ae;text-underline-offset:4px;cursor:help}td{border-bottom:1px solid var(--border);padding:12px 13px;vertical-align:middle}tbody tr{cursor:pointer;transition:background .1s}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:var(--surface-soft)}tbody tr[aria-selected="true"]{background:var(--accent-light)}tbody tr[aria-selected="true"] td:first-child{box-shadow:inset 3px 0 var(--accent);color:var(--accent);font-weight:700}tbody tr:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}.module-name{font-size:11px;line-height:1.5;font-weight:600;overflow-wrap:anywhere}.call-text{font:10px/1.6 var(--mono);color:var(--muted);max-width:480px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:3px}.line-number{font:11px var(--mono);color:var(--muted)}.flag-cell{text-align:center}.flag{font-size:13px;color:var(--accent);font-weight:700}.flag.no{color:#bdc7c0;font-weight:400}.flag.unknown{color:var(--red)}.badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;white-space:nowrap;color:var(--accent)}.badge.error{color:var(--red)}.badge-dot{width:5px;height:5px;border-radius:50%;background:currentColor}.table-footer{display:flex;justify-content:space-between;gap:15px;padding:10px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);line-height:1.5;background:var(--surface-soft)}.legend-check{color:var(--accent);margin-right:4px}.legend-dash,.legend-unknown{margin:0 4px 0 13px}.legend-unknown{color:var(--red)}.empty-state{padding:30px;text-align:center;position:sticky;left:0;color:var(--muted)}.empty-state p,.code-empty p{margin:7px 0;font-size:12px;color:var(--text)}.empty-state>span:last-child,.code-empty>span:last-child{font-size:11px}.empty-icon{font-size:27px;color:#b2c0b6}.code-toolbar{align-items:flex-start;min-height:70px}.code-symbol{color:var(--accent);font:13px var(--mono)}.method-heading{min-width:0}.source-path{font:10px/1.6 var(--mono);color:var(--muted);margin:6px 0 0;overflow-wrap:anywhere}.code-options{padding:9px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:14px;background:var(--surface-soft)}.segmented{display:flex;gap:3px}.segmented button{padding:6px 10px;border:1px solid transparent;background:transparent;font-size:10px;color:var(--muted);border-radius:4px}.segmented button[aria-pressed="true"]{background:var(--surface);border-color:var(--border);color:var(--text);box-shadow:0 1px 2px #203c2810}.code-view{max-height:510px;min-height:210px;overflow:auto;font:12px/1.9 var(--mono);tab-size:4;padding:14px 0;background:var(--surface)}.code-line{display:flex;min-width:max-content;min-height:23px}.code-gutter{display:inline-flex;flex:none;width:78px;padding-right:15px;justify-content:flex-end;gap:10px;user-select:none;color:#a4b0a7}.line-arrow{width:14px;color:var(--accent);font-weight:bold}.code-text{display:block;white-space:pre;padding-right:24px}.code-line.target{background:#edf5cb;box-shadow:inset 3px 0 #73923a;color:#22351c}.code-line.target .code-gutter{color:#6d8555}.code-line.gap{color:#a8b4ab;min-height:20px}.code-empty{text-align:center;padding:35px 20px;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--muted)}.code-empty>span:first-child{font:30px var(--mono);color:#a7bbad}.code-footer{padding:10px 20px;border-top:1px solid var(--border);font:10px var(--mono);color:var(--muted);display:flex;justify-content:space-between;gap:15px;background:var(--surface-soft)}.arrow-legend{color:var(--accent);font-size:13px}.syntax-keyword{color:#8a4d9b}.syntax-string{color:#92702d}.syntax-comment{color:#8b9a8d}.syntax-builtin{color:#1c7191}.method-error{padding:20px 24px;background:var(--red-bg);color:var(--red);font-size:12px;line-height:1.7}.method-error h3{margin:0 0 8px;font-size:13px}.method-error .diff-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin:14px 0 4px;color:#98736b}.method-error pre{font:12px/1.7 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface);padding:10px 12px;border:1px solid #ecd7cf;border-radius:4px;margin:0;color:var(--text)}.method-error p{margin:0}.page-footer{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:0 0 24px;font-size:10px;color:var(--muted)}.page-footer a{text-decoration:none;color:var(--muted)}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}dialog{width:min(670px,calc(100vw - 40px));max-height:85vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:26px;color:var(--text);font-size:13px;line-height:1.8;box-shadow:0 20px 90px #102b2330}dialog::backdrop{background:#1b342b66;backdrop-filter:blur(2px)}dialog li{padding-left:4px;margin-bottom:10px}dialog code{font-family:var(--mono);font-size:11px;background:var(--surface-soft);padding:2px 4px;border-radius:3px;overflow-wrap:anywhere}.dialog-header{display:flex;justify-content:space-between;align-items:center}.dialog-header h2{font-size:18px}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:11px 18px;background:var(--accent);color:white;box-shadow:0 4px 25px #102b2330;border-radius:6px;font-size:12px;z-index:5}
+@media(min-width:1700px){main{padding-top:42px}.code-view{max-height:600px}.page-intro{margin-bottom:32px}}
+@media(max-width:950px){main{padding:25px 20px 0}.topbar{padding:0 20px}.input-panel{grid-template-columns:250px 1fr}.context-panel{padding:20px}.folder-panel{padding:20px 16px}.input-actions{align-items:flex-end}.input-actions p{max-width:190px}.input-actions .button{gap:12px}.table-footer{flex-wrap:wrap}.brand-subtitle{font-size:11px}.header-right{gap:12px}.results-actions{gap:12px}}
+@media(max-width:650px){.topbar{height:58px;padding:0 16px}.brand{font-size:18px}.brand-subtitle,.brand-divider,.local-label{display:none}main{padding:22px 14px 0}.page-intro{align-items:flex-start;gap:12px;margin-bottom:20px}.page-intro .button{font-size:10px;padding:8px 10px;gap:8px;min-height:33px}.eyebrow{font-size:8px;letter-spacing:1.2px}h1{font-size:23px}.subtitle{font-size:11px}.input-panel{grid-template-columns:1fr}.folder-panel{border-right:0;border-bottom:1px solid var(--border);text-align:left;display:grid;grid-template-columns:1fr auto;gap:4px 15px;padding:16px}.folder-panel .section-label{grid-column:1/-1;margin-bottom:8px}.folder-illustration{display:none}.folder-name{grid-column:1;font-size:12px;margin:0}.folder-panel .muted{grid-column:1;margin:0;font-size:10px}.folder-button{grid-column:2;grid-row:2/4;align-self:center}.privacy-note{grid-column:1/-1;margin-top:8px}.context-panel{padding:16px}.input-actions{align-items:flex-start}.input-actions p{font-size:10px}.input-actions .button{font-size:10px;padding:9px 11px;gap:8px;min-height:37px}.panel-toolbar{padding:13px 15px;gap:10px}.results-actions>span{display:none}.table-footer,.code-footer{font-size:9px;padding:10px 15px;flex-wrap:wrap}.code-options{padding:8px 10px;gap:4px}.segmented button{font-size:9px;padding:6px}.code-options>.text-button{font-size:9px}.code-gutter{width:62px;gap:7px;padding-right:10px}.code-view{font-size:11px;max-height:430px}.code-toolbar .text-button{font-size:10px}.method-heading .panel-title{flex-wrap:wrap}.page-footer{flex-wrap:wrap;font-size:9px}.page-footer>span:nth-child(2){display:none}}
+
+/* ZIP selection and adjacent disk extraction. */
+.source-buttons{display:flex;justify-content:center;gap:8px}.source-buttons .button{min-height:34px;padding:8px 12px;gap:14px}#zip-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.zip-panel{margin-top:14px;border-top:1px solid var(--border);padding-top:12px;text-align:left}.zip-panel .button{margin:6px 0 8px;font-size:11px;min-height:34px;width:100%}.zip-panel .small{margin-bottom:0}.folder-panel:has(#zip-input:focus-visible) .zip-button{outline:3px solid #80bba2;outline-offset:3px}.folder-panel:has(input:disabled) .source-buttons{opacity:.5;pointer-events:none}@media(max-width:650px){.source-buttons{grid-column:2;grid-row:2/4;align-self:center}.source-buttons .folder-button{grid-column:auto;grid-row:auto}.zip-panel{grid-column:1/-1;width:100%}.zip-panel .button{width:auto}}
+.readiness{display:block;margin-top:5px;max-width:580px;line-height:1.5}.readiness.pending{color:var(--amber)}.readiness.ready{color:var(--accent)}
+.selection-summary{margin:12px 0;padding:12px;border:1px solid #a9cdb7;border-radius:7px;background:var(--accent-light);text-align:left}.selection-label{color:var(--accent);font-size:12px;font-weight:650;margin:0 0 10px}.selection-path-label{display:block;color:var(--muted);font-size:10px;margin-bottom:4px}.selection-path{display:block;width:100%;padding:7px 8px;border:1px solid #c3d9cc;border-radius:4px;background:var(--surface);font:11px var(--mono);color:var(--text);min-width:0}.selection-summary .small{display:block;margin-top:6px;font-size:9px}.source-feedback{font-size:11px;line-height:1.6;text-align:left;color:var(--accent);margin:10px 0}.source-feedback.error{color:var(--red)}.folder-panel[data-selection=ready]{box-shadow:inset 3px 0 var(--accent);background:#f3f8f4}.folder-panel[data-selection=ready] .folder-illustration{color:var(--accent)}.folder-panel[data-selection=error] .selection-summary{border-color:#e0c6a1;background:#fff8e9}.folder-panel[data-selection=error] .selection-label{color:var(--amber)}@media(max-width:650px){.selection-summary,.source-feedback{grid-column:1/-1}.selection-summary{margin:9px 0 3px}}
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-icon" aria-hidden="true">↳</span><span>Контекст<span class="brand-divider">/</span><span class="brand-subtitle">анализ транзакций 1С</span></span></a>
+    <div class="header-right"><span class="local-label"><span class="status-dot"></span>Локально в браузере</span><button id="help" class="icon-button" aria-label="Открыть справку">?</button></div>
+  </header>
+
+  <main>
+    <div class="page-intro"><div><p class="eyebrow">ИСХОДНИКИ → СТЕК → МЕТОД</p><h1>От контекста к коду</h1><p class="subtitle">Найдите границы транзакции и обработку исключений в стеке вызовов.</p></div><button id="demo" class="button secondary">Открыть пример <span aria-hidden="true">↗</span></button></div>
+
+    <section class="input-panel" aria-label="Исходные данные">
+      <div id="source-card" class="folder-panel">
+        <div class="section-label"><span class="step">01</span>Выгруженная конфигурация</div>
+        <div class="folder-illustration" aria-hidden="true"><svg viewBox="0 0 48 40" width="44" height="38" fill="none"><path d="M4 11V7a3 3 0 0 1 3-3h12l5 5h17a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V11Z" stroke="currentColor" stroke-width="1.7"/><path d="M4 14h40M18 24h12M24 18v12" stroke="currentColor" stroke-width="1.7"/></svg></div>
+        <p id="folder-name" class="folder-name">Выберите каталог или ZIP</p>
+        <p id="folder-info" class="muted small">Иерархическая или линейная структура.<br>Формат определяется автоматически.</p>
+        <div id="source-selection" class="selection-summary" hidden><p id="source-selection-label" class="selection-label">✓ Каталог выбран</p><label for="selected-directory-path" class="selection-path-label">Путь к исходникам</label><input id="selected-directory-path" class="selection-path" type="text" readonly aria-describedby="selected-path-note"><span id="selected-path-note" class="muted small">Путь от выбранной папки. Полный путь на диске браузер скрывает.</span></div>
+        <p id="source-feedback" class="source-feedback" role="status" aria-live="polite" hidden></p>
+        <div class="source-buttons"><button id="choose-folder" class="button secondary folder-button">Каталог <span aria-hidden="true">…</span></button><button id="choose-zip" class="button secondary zip-button">ZIP <span aria-hidden="true">↓</span></button></div>
+        <input type="file" id="folder" webkitdirectory multiple aria-label="Каталог выгруженной конфигурации">
+        <div id="zip-panel" class="zip-panel" hidden><p id="zip-name" class="folder-name"></p><p id="zip-info" class="muted small"></p><p class="muted small">Распаковка запущена автоматически. Полученный каталог будет выбран после завершения.</p></div>
+        <p class="privacy-note">Исходники остаются на вашем компьютере.</p>
+      </div>
+      <div class="context-panel">
+        <div class="context-heading"><label class="section-label" for="context"><span class="step">02</span>Контекст из 1С</label><button id="clear" class="text-button">Очистить</button></div>
+        <textarea id="context" spellcheck="false" aria-describedby="context-hint" placeholder="ОбщийМодуль.ИмяМодуля.Модуль:42:ВыполнитьОперацию();&#10;Документ.ИмяДокумента.МодульОбъекта:18:ОбработатьДанные();"></textarea>
+        <div class="input-actions"><p id="context-hint" class="muted small">Вставьте стек с номерами строк и текстом вызовов.<br><kbd>Ctrl</kbd> + <kbd>Enter</kbd> — построить контекст.<span id="source-readiness" class="readiness pending" role="status" aria-live="polite">Сначала выберите каталог выгрузки или ZIP в блоке конфигурации.</span></p><button id="analyze" class="button primary">Построить контекст <span aria-hidden="true">→</span></button></div>
+      </div>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="results-panel" aria-labelledby="results-title">
+      <div class="panel-toolbar"><div class="panel-title"><h2 id="results-title">Стек вызовов</h2><span id="row-count" class="count">0</span></div><div class="results-actions"><span id="summary" class="muted small">Контекст ещё не построен</span><button id="export" class="text-button" disabled>Экспорт CSV ↓</button></div></div>
+      <div class="table-wrap">
+        <table id="stack-table"><caption class="sr-only">Строки контекста и признаки транзакций. Выберите строку для просмотра метода.</caption><thead><tr><th scope="col">№</th><th scope="col" class="module-column">Модуль / строка вызова</th><th scope="col">Строка</th><th scope="col"><abbr title="Статический признак явной транзакции вокруг строки или неявной транзакции записи / проведения">Транзакция</abbr></th><th scope="col"><abbr title="Явная транзакция в методе проведения или на строке записи">Внутри неявной</abbr></th><th scope="col"><abbr title="Строка находится внутри блока Попытка / Исключение">Попытка</abbr></th><th scope="col"><abbr title="В обработчике охватывающей попытки есть ОтменитьТранзакцию; либо это текущая строка">Отмена</abbr></th><th scope="col"><abbr title="В обработчике охватывающей попытки есть ВызватьИсключение">Вызов исключения</abbr></th><th scope="col">Соответствие</th></tr></thead><tbody id="rows"></tbody></table>
+        <div id="table-empty" class="empty-state"><span class="empty-icon" aria-hidden="true">≡</span><p>Здесь появится стек вызовов</p><span>Выберите каталог и вставьте контекст, чтобы начать разбор.</span></div>
+      </div>
+      <div class="table-footer"><span><span class="legend-check">✓</span> признак обнаружен <span class="legend-dash">—</span> не обнаружен <span class="legend-unknown">?</span> ошибка сопоставления</span><span>Признаки определяются по тексту кода, без исполнения.</span></div>
+    </section>
+
+    <section class="code-panel" aria-labelledby="method-title">
+      <div class="panel-toolbar code-toolbar"><div class="method-heading"><div class="panel-title"><span class="code-symbol" aria-hidden="true">{ }</span><h2 id="method-title">Текст метода</h2><span id="method-range" class="muted small"></span></div><p id="source-path" class="source-path">Выберите строку в таблице контекста</p></div><button id="copy" class="text-button" disabled>Копировать метод</button></div>
+      <div class="code-options"><div class="segmented" role="group" aria-label="Режим просмотра кода"><button data-mode="all" aria-pressed="true">Весь метод</button><button data-mode="keywords" aria-pressed="false">Ключевые строки</button><button data-mode="exceptions" aria-pressed="false">С обработчиками</button></div><button id="jump" class="text-button" disabled>К строке вызова <span aria-hidden="true">↓</span></button></div>
+      <div id="method-error" class="method-error" hidden></div>
+      <div id="code" class="code-view" tabindex="0" role="region" aria-label="Исходный код метода"><div class="code-empty"><span aria-hidden="true">↳</span><p>Каждый вызов — в своём контексте</p><span>Текст метода, исходные номера строк и точная позиция вызова.</span></div></div>
+      <div class="code-footer"><span id="selection-info">Нет выбранного вызова</span><span><span class="arrow-legend">→</span> строка из контекста 1С</span></div>
+    </section>
+
+    <footer class="page-footer"><span>Контекст · 1С · версия 1.3</span><span>Без установки, сервера и отправки файлов</span><a href="https://its.1c.ru/db/v851doc#bookmark:dev:TI000001893" target="_blank" rel="noreferrer">Форматы выгрузки ↗</a></footer>
+  </main>
+
+  <dialog id="help-dialog"><div class="dialog-header"><h2>Как работать с контекстом</h2><button id="close-help" class="icon-button" aria-label="Закрыть справку">×</button></div><ol><li>Выгрузите конфигурацию в файлы и выберите корневой каталог выгрузки. Если выгрузок несколько, выбирайте каталог только одной конфигурации.</li><li>Вставьте строки стека в формате <code>ОбщийМодуль.Имя.Модуль:42:Вызов();</code> или <code>{ОбщийМодуль.Имя.Модуль(42)}: Вызов();</code>. Допускается разделение строками или точкой с запятой.</li><li>Нажмите «Построить контекст». Выберите вызов в таблице — внизу откроется метод со стрелкой на исходной строке. По таблице можно перемещаться клавишами ↑ и ↓.</li></ol><h3>Проверка версии</h3><p>Номер строки и её текст должны совпадать с выгрузкой. Игнорируются только пробелы по краям текста. При отличии показывается ошибка «Несоответствие конфигураций» и оба текста. Поиск похожей строки вместо указанной не выполняется.</p><h3>Как читать признаки</h3><p>Это статические признаки по тексту метода: начало транзакции до вызова и завершение после него; охватывающие блоки попытки и их обработчики. Вызовы записи и методы проведения отмечаются как возможная неявная транзакция. Комментарии и строковые литералы исключаются из анализа. Ветви условий, циклы, директивы компиляции и вызываемые методы не исполняются: флажки не доказывают фактическое состояние транзакции в сеансе.</p><h3>Файлы и форматы</h3><p>Поддерживаются иерархические выгрузки с файлами <code>.bsl</code> и линейные с модулями <code>.txt</code>, в UTF-8 и UTF-16. Формат определяется по путям файлов. При выборе ZIP распаковка запускается автоматически. Браузер может сначала запросить доступ к папке с архивом: диалог сразу откроется рядом с выбранным ZIP. Разрешение необходимо для записи распакованных файлов. Пока страница открыта, уже разрешённая папка используется повторно. Архив распакуется в новую папку с его именем; если такая папка уже существует, к имени добавится номер. Каталог распаковки выберется автоматически. Поддерживаются ZIP / ZIP64 со сжатием Deflate или без сжатия; архивы с паролем не поддерживаются. Для записи на диск используйте Chrome или Edge. Каталог выбирается заново после перезагрузки страницы; исходники читаются только для модулей из стека.</p></dialog>
+<script>/* Local 1C stack analysis. No network or platform dependencies. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.StackAnalyzer = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+
+  const TYPES = [
+    ['Справочник', 'Catalog', 'Catalogs'], ['Документ', 'Document', 'Documents'],
+    ['Обработка', 'DataProcessor', 'DataProcessors'], ['Отчет', 'Report', 'Reports'],
+    ['ОбщийМодуль', 'CommonModule', 'CommonModules'], ['ОбщаяФорма', 'CommonForm', 'CommonForms'],
+    ['ОбщаяКоманда', 'CommonCommand', 'CommonCommands'], ['РегистрСведений', 'InformationRegister', 'InformationRegisters'],
+    ['РегистрНакопления', 'AccumulationRegister', 'AccumulationRegisters'],
+    ['РегистрБухгалтерии', 'AccountingRegister', 'AccountingRegisters'],
+    ['РегистрРасчета', 'CalculationRegister', 'CalculationRegisters'],
+    ['ПланСчетов', 'ChartOfAccounts', 'ChartsOfAccounts'],
+    ['ПланВидовХарактеристик', 'ChartOfCharacteristicTypes', 'ChartsOfCharacteristicTypes'],
+    ['ПланВидовРасчета', 'ChartOfCalculationTypes', 'ChartsOfCalculationTypes'],
+    ['ПланОбмена', 'ExchangePlan', 'ExchangePlans'], ['БизнесПроцесс', 'BusinessProcess', 'BusinessProcesses'],
+    ['Задача', 'Task', 'Tasks'], ['Константа', 'Constant', 'Constants'],
+    ['Перечисление', 'Enum', 'Enums'], ['ЖурналДокументов', 'DocumentJournal', 'DocumentJournals'],
+    ['Последовательность', 'Sequence', 'Sequences'], ['КритерийОтбора', 'FilterCriterion', 'FilterCriteria'],
+    ['HTTPСервис', 'HTTPService', 'HTTPServices'], ['WebСервис', 'WebService', 'WebServices'],
+    ['ВебСервис', 'WebService', 'WebServices'], ['ВнешнийИсточникДанных', 'ExternalDataSource', 'ExternalDataSources'],
+    ['ВнешняяОбработка', 'ExternalDataProcessor', 'ExternalDataProcessors'],
+    ['ВнешнийОтчет', 'ExternalReport', 'ExternalReports']
+  ];
+  const CHILDREN = [
+    ['Форма', 'Form', 'Forms'], ['Команда', 'Command', 'Commands'],
+    ['Таблица', 'Table', 'Tables'], ['Куб', 'Cube', 'Cubes'], ['ТаблицаИзмерений', 'DimensionTable', 'DimensionTables']
+  ];
+  const MODULES = [
+    ['Модуль', 'Module'], ['МодульФормы', 'Module'], ['МодульОбъекта', 'ObjectModule'],
+    ['МодульМенеджера', 'ManagerModule'], ['МодульНабораЗаписей', 'RecordSetModule'],
+    ['МодульМенеджераЗначения', 'ValueManagerModule'], ['МодульКоманды', 'CommandModule'],
+    ['МодульУправляемогоПриложения', 'ManagedApplicationModule'],
+    ['МодульОбычногоПриложения', 'OrdinaryApplicationModule'],
+    ['МодульВнешнегоСоединения', 'ExternalConnectionModule'], ['МодульСеанса', 'SessionModule']
+  ];
+  const aliases = new Map();
+  for (const group of [...TYPES, ...CHILDREN, ...MODULES, ['Конфигурация', 'Configuration']]) {
+    for (const item of group) aliases.set(item.toLowerCase(), group[1]);
+  }
+  const collections = new Map([...TYPES, ...CHILDREN].map(g => [g[2].toLowerCase(), g[1]]));
+  const moduleNames = new Set(MODULES.map(g => g[1].toLowerCase()));
+  const lower = text => text.normalize('NFC').toLowerCase();
+
+  function canonicalModule(name) {
+    const parts = name.trim().split('.').map(p => p.trim());
+    // Translate metadata kinds only; user-defined object names can themselves be "Форма" or "Module".
+    const result = [];
+    for (let i = 0; i < parts.length; i++) {
+      const key = parts[i].toLowerCase();
+      if (i === 0 || (i > 0 && i % 2 === 0)) result.push(aliases.get(key) || parts[i]);
+      else result.push(parts[i]);
+    }
+    if (result[0] === 'Configuration' && result.length === 2) {
+      result[1] = aliases.get(result[1].toLowerCase()) || result[1];
+      result.shift();
+    }
+    if (result.at(-1) === 'Form' && (result.at(-3) === 'Form' || (result[0] === 'CommonForm' && result.length === 3))) result[result.length - 1] = 'Module';
+    // Stack forms commonly omit the terminal .Module.
+    if ((result[0] === 'CommonForm' && result.length === 2) ||
+        (result.includes('Form') && result.at(-2) === 'Form')) result.push('Module');
+    if ((result[0] === 'CommonModule' && result.length === 2)) result.push('Module');
+    return lower(result.join('.'));
+  }
+
+  function identityFromPath(rawPath) {
+    const path = rawPath.replace(/\\/g, '/');
+    const parts = path.split('/').filter(Boolean);
+    const filename = parts.at(-1) || '';
+    if (!/\.(bsl|txt)$/i.test(filename)) return null;
+    const stem = filename.replace(/\.(bsl|txt)$/i, '');
+    // Flat export: Catalog.X.Form.Y.Form.Module.txt.
+    if (filename.toLowerCase().endsWith('.txt') && stem.includes('.')) {
+      const flat = stem.split('.');
+      if (flat.length >= 4 && /^(form)$/i.test(flat.at(-2)) && /^module$/i.test(flat.at(-1))) flat.splice(-2, 1);
+      return { key: canonicalModule(flat.join('.')), format: 'flat' };
+    }
+    if (!filename.toLowerCase().endsWith('.bsl')) return null;
+    const first = parts.findIndex(p => collections.has(p.toLowerCase()));
+    if (first >= 0) {
+      const p = parts.slice(first);
+      const identity = [];
+      for (let i = 0; i < p.length - 1; i++) {
+        if (p[i].toLowerCase() === 'ext') continue;
+        // Ext/Form is storage, not a second metadata Form object.
+        if (p[i].toLowerCase() === 'form' && p[i - 1]?.toLowerCase() === 'ext') continue;
+        const kind = collections.get(p[i].toLowerCase());
+        if (!kind || i + 1 >= p.length - 1) return null;
+        identity.push(kind, p[++i]);
+      }
+      identity.push(stem);
+      return { key: canonicalModule(identity.join('.')), format: 'hierarchical' };
+    }
+    // Root configuration modules, or an exported external processor/report.
+    if (moduleNames.has(stem.toLowerCase()) && parts.at(-2)?.toLowerCase() === 'ext') {
+      return { key: canonicalModule(stem), format: 'hierarchical' };
+    }
+    return null;
+  }
+
+  function createIndex(files) {
+    const byModule = new Map();
+    const formats = new Set();
+    let modules = 0;
+    for (const file of files) {
+      const path = file.webkitRelativePath || file.relativePath || file.name;
+      const identity = identityFromPath(path);
+      if (!identity) continue;
+      const entry = { file, path, format: identity.format };
+      const candidates = byModule.get(identity.key) || [];
+      candidates.push(entry);
+      byModule.set(identity.key, candidates);
+      formats.add(identity.format);
+      modules++;
+    }
+    return { byModule, formats: [...formats], modules };
+  }
+
+  async function filesFromDirectory(root, progress = () => {}) {
+    const files = [], pending = [{ handle: root, path: root.name }];
+    let visited = 0;
+    while (pending.length) {
+      const current = pending.pop();
+      for await (const [name, handle] of current.handle.entries()) {
+        const path = current.path + '/' + name;
+        if (handle.kind === 'directory') pending.push({ handle, path });
+        else if (handle.kind === 'file' && identityFromPath(path)) files.push({
+          name, relativePath: path, arrayBuffer: async () => (await handle.getFile()).arrayBuffer()
+        });
+        if (++visited % 50 === 0) progress(files.length);
+      }
+    }
+    progress(files.length);
+    return files;
+  }
+
+  class AnalysisError extends Error {
+    constructor(code, message, details = {}) { super(message); this.name = 'AnalysisError'; this.code = code; this.details = details; }
+  }
+
+  function parseContext(input) {
+    let text = String(input).replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').trim();
+    if (!text) throw new AnalysisError('EMPTY_CONTEXT', 'Вставьте контекст из 1С.');
+    if (text.startsWith("'") && text.endsWith("'")) text = text.slice(1, -1).trim();
+    // Diagnostic stacks can start with the entry-point description shown by a 1C form.
+    // It is not a stack frame and contains no source line number.
+    text = text.replace(/^Форма\.Вызов[ \t]*:[ \t]*[\p{L}\p{N}_.]+[ \t]*\n/u, '').trim();
+    // A frame begins only at a new line, or after a separating semicolon. Semicolons inside code stay intact.
+    const pattern = /(^|[\n;])[ \t']*(?:\{([^{}\n]+)\((\d+)\)\}\s*:|([\p{L}\p{N}_.]+)\s*:\s*(\d+)\s*:)[ \t]*/gmu;
+    // Mark string-literal spans so a stack-looking fragment inside an argument is never a new frame.
+    const insideString = new Uint8Array(text.length);
+    let quoted = false;
+    for (let i = 0; i < text.length; i++) {
+      insideString[i] = quoted ? 1 : 0;
+      if (text[i] === '"') {
+        if (quoted && text[i + 1] === '"') { insideString[++i] = 1; continue; }
+        quoted = !quoted;
+      }
+    }
+    const matches = [...text.matchAll(pattern)].filter(m => !insideString[m.index]);
+    if (!matches.length) throw new AnalysisError('INVALID_CONTEXT', 'Не удалось разобрать контекст. Формат: ОбщийМодуль.Имя.Модуль:42:ТекстВызова();');
+    if (text.slice(0, matches[0].index).trim()) throw new AnalysisError('INVALID_CONTEXT', 'Перед первой строкой контекста есть нераспознанный текст. Вставьте только стек вызовов.');
+    return matches.map((m, i) => {
+      const end = i + 1 < matches.length ? matches[i + 1].index : text.length;
+      let code = text.slice(m.index + m[0].length, end).trim();
+      // In the compact stack, the last semicolon of the statement also separates frames.
+      if (i + 1 < matches.length && matches[i + 1][1] === ';' && !code.endsWith("'") && !code.endsWith(';')) code += ';';
+      // The stack serialization may wrap individual frames in single quotes.
+      if (code.endsWith("'")) code = code.slice(0, -1).trimEnd();
+      if (code.includes('\n')) {
+        // Multi-line source expressions are allowed, but unparsed stack lines must not disappear silently.
+        if (/\n\s*\{?[^\n]*[.:]\s*\d+\s*[:)]/.test(code)) throw new AnalysisError('INVALID_CONTEXT', `Не распознана одна из строк после кадра ${i + 1}.`);
+      }
+      const line = Number(m[3] || m[5]);
+      if (!Number.isSafeInteger(line) || line < 1) throw new AnalysisError('INVALID_LINE', `Недопустимый номер строки в кадре ${i + 1}.`);
+      if (!code) throw new AnalysisError('MISSING_SOURCE', `В кадре ${i + 1} нет текста строки. Без него нельзя проверить соответствие конфигурации.`);
+      return { index: i, module: (m[2] || m[4]).trim(), line, code, raw: text.slice(m.index, end).replace(/^[\n;\s']+/, '') };
+    });
+  }
+
+  async function readSource(file) {
+    const data = new Uint8Array(await file.arrayBuffer());
+    if (data[0] === 0xff && data[1] === 0xfe) return new TextDecoder('utf-16le').decode(data);
+    if (data[0] === 0xfe && data[1] === 0xff) return new TextDecoder('utf-16be').decode(data);
+    try { return new TextDecoder('utf-8', { fatal: true }).decode(data); }
+    catch { throw new AnalysisError('ENCODING', 'Файл не в UTF-8 или UTF-16. Сохраните исходник в кодировке Unicode.'); }
+  }
+
+  // Lexical scanning preserves original offsets and line numbers. Strings and comments cannot become control-flow tokens.
+  function tokenize(text) {
+    const tokens = [];
+    let i = 0, line = 1;
+    while (i < text.length) {
+      const c = text[i];
+      if (c === '\n') { line++; i++; continue; }
+      if (/\s/.test(c)) { i++; continue; }
+      if (c === '/' && text[i + 1] === '/') { while (i < text.length && text[i] !== '\n') i++; continue; }
+      if (c === '"') {
+        i++;
+        while (i < text.length) {
+          if (text[i] === '\n') line++;
+          if (text[i] === '"') { if (text[i + 1] === '"') { i += 2; continue; } i++; break; }
+          i++;
+        }
+        continue;
+      }
+      if (c === "'") { // Date literals.
+        i++; while (i < text.length && text[i] !== "'" && text[i] !== '\n') i++;
+        if (text[i] === "'") i++;
+        continue;
+      }
+      if (c === '#') { while (i < text.length && text[i] !== '\n') i++; continue; }
+      const start = i;
+      if (/[\p{L}_]/u.test(c)) {
+        i++;
+        while (i < text.length && /[\p{L}\p{N}_]/u.test(text[i])) i++;
+        tokens.push({ value: text.slice(start, i).toLowerCase(), text: text.slice(start, i), offset: start, line, end: i, type: 'word' });
+      } else { tokens.push({ value: c, text: c, offset: i, end: i + 1, line, type: 'symbol' }); i++; }
+    }
+    return tokens;
+  }
+  const isWord = (t, ...names) => t?.type === 'word' && names.includes(t.value);
+  const isCall = (tokens, i, ...names) => isWord(tokens[i], ...names) && tokens[i + 1]?.value === '(';
+  const isBuiltin = (tokens, i, ...names) => tokens[i - 1]?.value !== '.' && isCall(tokens, i, ...names);
+  const isStart = t => isWord(t, 'процедура', 'функция', 'procedure', 'function');
+  const isEnd = t => isWord(t, 'конецпроцедуры', 'конецфункции', 'endprocedure', 'endfunction');
+
+  function methodAt(tokens, line, lines) {
+    let start = null;
+    const ranges = [];
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      if (isStart(token)) start = { start: token.line, startIndex: i, name: tokens[i + 1]?.text || 'Метод' };
+      if (isEnd(token) && start) { ranges.push({ ...start, end: token.line, endIndex: i }); start = null; }
+    }
+    if (start) ranges.push({ ...start, end: lines.length, endIndex: tokens.length - 1 });
+    const method = ranges.find(r => line >= r.start && line <= r.end);
+    if (method) return method;
+    // Module initialization code lives outside named procedures/functions.
+    const preceding = ranges.filter(r => r.end < line).at(-1);
+    const following = ranges.find(r => r.start > line);
+    const from = preceding ? preceding.end + 1 : 1;
+    const to = following ? following.start - 1 : lines.length;
+    return { start: from, end: to, startIndex: tokens.findIndex(t => t.line >= from), endIndex: tokens.findLastIndex(t => t.line <= to), name: 'Тело модуля' };
+  }
+
+  function analyzeMethod(lines, tokens, method, targetLine) {
+    const local = tokens.filter(t => t.line >= method.start && t.line <= method.end);
+    const attempts = [], stack = [], starts = [], closes = [], raises = [], rollback = [], implicit = [];
+    const keywordLines = new Set([method.start, method.end, targetLine]);
+    for (let i = 0; i < local.length; i++) {
+      const t = local[i];
+      if (isWord(t, 'попытка', 'try')) {
+        const block = { start: t.offset, startLine: t.line, exception: null, end: Infinity, endLine: method.end };
+        stack.push(block); attempts.push(block); keywordLines.add(t.line);
+      } else if (isWord(t, 'исключение', 'except') && stack.length) {
+        stack.at(-1).exception = t.offset; stack.at(-1).exceptionLine = t.line; keywordLines.add(t.line);
+      } else if (isWord(t, 'конецпопытки', 'endtry') && stack.length) {
+        const block = stack.pop(); block.end = t.offset; block.endLine = t.line; keywordLines.add(t.line);
+      }
+      if (isBuiltin(local, i, 'начатьтранзакцию', 'begintransaction')) { starts.push(t); keywordLines.add(t.line); }
+      if (isBuiltin(local, i, 'зафиксироватьтранзакцию', 'committransaction', 'отменитьтранзакцию', 'rollbacktransaction')) {
+        closes.push(t); keywordLines.add(t.line);
+        if (isWord(t, 'отменитьтранзакцию', 'rollbacktransaction')) rollback.push(t);
+      }
+      if (isWord(t, 'вызватьисключение', 'raise') && local[i - 1]?.value !== '.') { raises.push(t); keywordLines.add(t.line); }
+      if (isCall(local, i, 'записать', 'write', 'записатьвформе') && (local[i - 1]?.value === '.' || t.value === 'записатьвформе')) implicit.push(t);
+    }
+    const target = local.find(t => t.line === targetLine);
+    const targetOffset = target?.offset ?? -1;
+    const containing = attempts.filter(b => b.start <= targetOffset && b.end >= targetOffset);
+    // Static signs only: no attempt to execute branches, loops or called methods.
+    const explicitTransaction = starts.some(s => s.line <= targetLine && closes.some(c => c.offset > s.offset && c.line >= targetLine));
+    const beginOnLine = starts.some(t => t.line === targetLine);
+    const implicitTransaction = implicit.some(t => t.line === targetLine) ||
+      /^(обработкапроведения|posting)$/i.test(method.name);
+    const handlerTokens = collection => containing.some(b => b.exception !== null && collection.some(t => t.offset > b.exception && t.offset < b.end));
+    const exceptionLines = new Set();
+    for (const block of attempts) if (block.exception !== null) for (let n = block.exceptionLine; n <= block.endLine; n++) exceptionLines.add(n);
+    return {
+      transaction: explicitTransaction || beginOnLine || implicitTransaction,
+      nestedTransaction: (explicitTransaction || beginOnLine) && implicitTransaction,
+      attempt: containing.length > 0,
+      raises: handlerTokens(raises),
+      rollback: rollback.some(t => t.line === targetLine) || handlerTokens(rollback),
+      implicitTransaction, explicitTransaction: explicitTransaction || beginOnLine,
+      keywordLines: [...keywordLines], exceptionLines: [...exceptionLines]
+    };
+  }
+
+  function checkLine(frame, lines) {
+    const actual = lines[frame.line - 1];
+    const expected = frame.code.replace(/\r\n?/g, '\n').trim();
+    // Only the outside whitespace is ignored. Never search for a similar line at another offset.
+    const length = expected.split('\n').length;
+    const selected = lines.slice(frame.line - 1, frame.line - 1 + length).join('\n').trim();
+    if (actual === undefined || expected !== selected) {
+      throw new AnalysisError('CONFIGURATION_MISMATCH', 'Несоответствие конфигураций: строка контекста не совпадает с исходником.', {
+        expected, actual: actual === undefined ? '(номер строки за пределами файла)' : selected,
+        line: frame.line, module: frame.module
+      });
+    }
+  }
+
+  async function analyzeFrames(frames, index, progress = () => {}) {
+    const cache = new Map();
+    const rows = [];
+    for (let i = 0; i < frames.length; i++) {
+      const frame = frames[i];
+      progress(i, frames.length);
+      try {
+        const key = canonicalModule(frame.module);
+        const candidates = index.byModule.get(key) || [];
+        if (!candidates.length) throw new AnalysisError('MODULE_NOT_FOUND', 'Модуль не найден в выбранном каталоге. Проверьте состав и версию выгрузки.', { module: frame.module });
+        if (candidates.length > 1) throw new AnalysisError('AMBIGUOUS_MODULE', 'Найдено несколько файлов этого модуля. Выберите каталог одной выгрузки.', { paths: candidates.map(c => c.path) });
+        const entry = candidates[0];
+        if (!cache.has(entry.path)) {
+          const text = (await readSource(entry.file)).replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+          cache.set(entry.path, { lines: text.split('\n'), tokens: tokenize(text) });
+        }
+        const { lines, tokens } = cache.get(entry.path);
+        checkLine(frame, lines);
+        const method = methodAt(tokens, frame.line, lines);
+        const flags = analyzeMethod(lines, tokens, method, frame.line);
+        rows.push({ ...frame, status: 'ok', path: entry.path, format: entry.format, lines, method, ...flags });
+      } catch (error) {
+        rows.push({ ...frame, status: 'error', error: { code: error.code || 'READ_ERROR', message: error.message || 'Не удалось прочитать файл.', details: error.details || {} } });
+      }
+    }
+    progress(frames.length, frames.length);
+    return rows;
+  }
+
+  function visibleCode(row, mode = 'all') {
+    if (row.status !== 'ok') return [];
+    const selected = new Set(row.keywordLines);
+    if (mode === 'exceptions') for (const n of row.exceptionLines) selected.add(n);
+    const result = [];
+    let gap = false;
+    for (let n = row.method.start; n <= row.method.end; n++) {
+      if (mode !== 'all' && !selected.has(n)) { gap = true; continue; }
+      if (gap) { result.push({ gap: true }); gap = false; }
+      result.push({ line: n, text: row.lines[n - 1], target: n === row.line });
+    }
+    return result;
+  }
+
+  return { TYPES, canonicalModule, identityFromPath, createIndex, filesFromDirectory, parseContext, readSource, tokenize, methodAt, analyzeMethod, analyzeFrames, checkLine, visibleCode, AnalysisError };
+});
+</script>
+<script>(function (root, factory) {
+  const demo = factory();
+  if (typeof module === 'object' && module.exports) module.exports = demo;
+  else root.StackDemo = demo;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  const files = [
+    { path: 'Пример/CommonModules/ОбменДанными/Ext/Module.bsl', text: `// Демонстрационные исходники. Это не код вашей конфигурации.
+Процедура ВыполнитьОбмен(ДокументОбъект) Экспорт
+
+    НачатьТранзакцию();
+    Попытка
+        ПроверитьДанные(ДокументОбъект);
+        ДокументОбъект.Записать();
+        ЗафиксироватьТранзакцию();
+    Исключение
+        ОтменитьТранзакцию();
+        ЗаписатьЖурналРегистрации(ОписаниеОшибки());
+        ВызватьИсключение;
+    КонецПопытки;
+
+КонецПроцедуры
+
+Процедура ПроверитьДанные(ДокументОбъект)
+    Если Не ЗначениеЗаполнено(ДокументОбъект.Организация) Тогда
+        ВызватьИсключение "Не заполнена организация";
+    КонецЕсли;
+КонецПроцедуры
+` },
+    { path: 'Пример/Documents/РеализацияТоваров/Ext/ObjectModule.bsl', text: `Процедура ОбработкаПроведения(Отказ, РежимПроведения)
+
+    Попытка
+        Движения.Товары.Записывать = Истина;
+        СформироватьДвижения();
+    Исключение
+        Отказ = Истина;
+        ВызватьИсключение;
+    КонецПопытки;
+
+КонецПроцедуры
+
+Процедура СформироватьДвижения()
+    // НачатьТранзакцию() в комментарии не является вызовом.
+    Движение = Движения.Товары.Добавить();
+    Движение.Количество = Количество;
+КонецПроцедуры
+` },
+    { path: 'Пример/Documents/РеализацияТоваров/Forms/ФормаДокумента/Ext/Form/Module.bsl', text: `&НаКлиенте
+Процедура Обмен(Команда)
+    ВыполнитьОбменНаСервере();
+КонецПроцедуры
+
+&НаСервере
+Процедура ВыполнитьОбменНаСервере()
+    ДокументОбъект = РеквизитФормыВЗначение("Объект");
+    ОбменДанными.ВыполнитьОбмен(ДокументОбъект);
+КонецПроцедуры
+` }
+  ];
+  const context = [
+    'ОбщийМодуль.ОбменДанными.Модуль:7:ДокументОбъект.Записать();',
+    'Документ.РеализацияТоваров.МодульОбъекта:5:СформироватьДвижения();',
+    'Документ.РеализацияТоваров.Форма.ФормаДокумента.Форма:9:ОбменДанными.ВыполнитьОбмен(ДокументОбъект);'
+  ].join('\n');
+  return { files, context };
+});
+</script>
+<script>/* ZIP/ZIP64 reader and streaming disk extraction using native browser APIs. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.StackZip = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  class ZipError extends Error {
+    constructor(message) { super(message); this.name = 'ZipError'; }
+  }
+  const fail = message => { throw new ZipError(message); };
+  const crcTable = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let crc = i;
+    for (let bit = 0; bit < 8; bit++) crc = crc & 1 ? (crc >>> 1) ^ 0xedb88320 : crc >>> 1;
+    crcTable[i] = crc >>> 0;
+  }
+  function crcUpdate(crc, data) { for (const byte of data) crc = (crc >>> 8) ^ crcTable[(crc ^ byte) & 255]; return crc >>> 0; }
+  const crc32 = data => (crcUpdate(0xffffffff, data) ^ 0xffffffff) >>> 0;
+  const view = data => new DataView(data.buffer, data.byteOffset, data.byteLength);
+  async function read(file, offset, size) {
+    if (!Number.isSafeInteger(offset) || !Number.isSafeInteger(size) || offset < 0 || size < 0 || offset + size > file.size) fail('ZIP повреждён: данные выходят за границы архива.');
+    const data = new Uint8Array(await file.slice(offset, offset + size).arrayBuffer());
+    if (data.length !== size) fail('Не удалось полностью прочитать ZIP.');
+    return data;
+  }
+  function uint64(data, offset) {
+    if (offset + 8 > data.byteLength) fail('ZIP64 повреждён: неполные размеры файла.');
+    const value = Number(data.getBigUint64(offset, true));
+    if (!Number.isSafeInteger(value)) fail('ZIP слишком велик для обработки в браузере.');
+    return value;
+  }
+  function safePath(name) {
+    const path = name.replace(/\\/g, '/');
+    if (!path || path.startsWith('/') || /[\x00-\x1f\x7f]/.test(path)) fail(`Недопустимый путь в ZIP: ${name}`);
+    const parts = path.replace(/\/$/, '').split('/');
+    for (const p of parts) {
+      if (!p || p === '.' || p === '..' || /[<>:"|?*]/.test(p) || /[. ]$/.test(p) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(p)) fail(`Недопустимый путь в ZIP: ${name}`);
+    }
+    return { path: parts.join('/'), parts, directory: path.endsWith('/') };
+  }
+  function extras(bytes) {
+    const map = new Map(); const data = view(bytes);
+    for (let i = 0; i < bytes.length;) {
+      if (i + 4 > bytes.length) fail('ZIP повреждён: неполное дополнительное поле.');
+      const tag = data.getUint16(i, true), length = data.getUint16(i + 2, true); i += 4;
+      if (i + length > bytes.length) fail('ZIP повреждён: неверная длина дополнительного поля.');
+      map.set(tag, bytes.subarray(i, i + length)); i += length;
+    }
+    return map;
+  }
+  function decodeName(raw, flags, extra) {
+    try {
+      if (flags & 0x800) return new TextDecoder('utf-8', { fatal: true }).decode(raw);
+      const unicode = extra.get(0x7075);
+      if (unicode?.length >= 5 && unicode[0] === 1 && view(unicode).getUint32(1, true) === crc32(raw)) return new TextDecoder('utf-8', { fatal: true }).decode(unicode.subarray(5));
+      // Traditional Cyrillic ZIP filenames use DOS codepage 866.
+      return new TextDecoder('ibm866').decode(raw);
+    } catch { fail('Не удалось прочитать имя файла в ZIP. Используйте архив с именами в UTF-8.'); }
+  }
+
+  async function inspect(file) {
+    if (file.size < 22) fail('Файл не является ZIP-архивом или повреждён.');
+    const tailOffset = Math.max(0, file.size - 65557);
+    const tail = await read(file, tailOffset, file.size - tailOffset); const t = view(tail);
+    let eocd = -1;
+    for (let i = tail.length - 22; i >= 0; i--) if (t.getUint32(i, true) === 0x06054b50 && i + 22 + t.getUint16(i + 20, true) === tail.length) { eocd = i; break; }
+    if (eocd < 0) fail('ZIP повреждён: не найден каталог архива.');
+    if (t.getUint16(eocd + 4, true) || t.getUint16(eocd + 6, true)) fail('Многотомные ZIP-архивы не поддерживаются.');
+    let count = t.getUint16(eocd + 10, true), size = t.getUint32(eocd + 12, true), offset = t.getUint32(eocd + 16, true);
+    if (count === 65535 || size === 0xffffffff || offset === 0xffffffff) {
+      const locator = view(await read(file, tailOffset + eocd - 20, 20));
+      if (locator.getUint32(0, true) !== 0x07064b50 || locator.getUint32(4, true) !== 0 || locator.getUint32(16, true) !== 1) fail('ZIP64 повреждён или содержит несколько томов.');
+      const record = view(await read(file, uint64(locator, 8), 56));
+      if (record.getUint32(0, true) !== 0x06064b50 || record.getUint32(16, true) || record.getUint32(20, true)) fail('Неверный заголовок ZIP64.');
+      count = uint64(record, 32); size = uint64(record, 40); offset = uint64(record, 48);
+      if (uint64(record, 24) !== count) fail('Многотомные ZIP-архивы не поддерживаются.');
+    } else if (t.getUint16(eocd + 8, true) !== count) fail('Многотомные ZIP-архивы не поддерживаются.');
+    if (size > 128 * 1024 * 1024 || count > 250000) fail('В ZIP слишком много файлов для обработки в браузере. Распакуйте его обычным архиватором и выберите каталог.');
+    if (offset + size > tailOffset + eocd) fail('ZIP повреждён: неверное расположение каталога.');
+    const central = await read(file, offset, size), data = view(central);
+    const entries = [], seen = new Map(); let position = 0, totalSize = 0;
+    for (let i = 0; i < count; i++) {
+      const p = position;
+      if (p + 46 > size || data.getUint32(p, true) !== 0x02014b50) fail('ZIP повреждён: неверная запись каталога.');
+      const flags = data.getUint16(p + 8, true), compression = data.getUint16(p + 10, true);
+      const crc = data.getUint32(p + 16, true);
+      let compressedSize = data.getUint32(p + 20, true), originalSize = data.getUint32(p + 24, true), localOffset = data.getUint32(p + 42, true);
+      const nameSize = data.getUint16(p + 28, true), extraSize = data.getUint16(p + 30, true), commentSize = data.getUint16(p + 32, true);
+      const disk = data.getUint16(p + 34, true), attrs = data.getUint32(p + 38, true);
+      position = p + 46 + nameSize + extraSize + commentSize;
+      if (position > size) fail('ZIP повреждён: обрезанный каталог.');
+      const extra = extras(central.subarray(p + 46 + nameSize, p + 46 + nameSize + extraSize));
+      if (originalSize === 0xffffffff || compressedSize === 0xffffffff || localOffset === 0xffffffff || disk === 65535) {
+        const z = extra.get(1); if (!z) fail('ZIP64 повреждён: отсутствуют размеры.');
+        const values = view(z); let cursor = 0;
+        if (originalSize === 0xffffffff) { originalSize = uint64(values, cursor); cursor += 8; }
+        if (compressedSize === 0xffffffff) { compressedSize = uint64(values, cursor); cursor += 8; }
+        if (localOffset === 0xffffffff) { localOffset = uint64(values, cursor); cursor += 8; }
+        if (disk === 65535 && (cursor + 4 > z.length || values.getUint32(cursor, true) !== 0)) fail('Многотомные ZIP-архивы не поддерживаются.');
+      } else if (disk) fail('Многотомные ZIP-архивы не поддерживаются.');
+      if (flags & 1) fail('ZIP защищён паролем. Сначала снимите пароль или распакуйте архив обычным архиватором.');
+      if (compression !== 0 && compression !== 8) fail(`Метод сжатия ZIP ${compression} не поддерживается. Используйте обычное сжатие Deflate.`);
+      const rawName = central.subarray(p + 46, p + 46 + nameSize);
+      const name = decodeName(rawName, flags, extra);
+      const path = safePath(name);
+      const unixType = (attrs >>> 16) & 0xf000;
+      if (unixType && unixType !== 0x8000 && unixType !== 0x4000) fail(`ZIP содержит ссылку или специальный файл: ${name}`);
+      path.directory ||= unixType === 0x4000 || Boolean(attrs & 0x10);
+      const key = path.path.normalize('NFC').toLowerCase();
+      if (seen.has(key)) fail(`В ZIP повторяется путь: ${name}`);
+      seen.set(key, path.directory);
+      if (localOffset + 30 + compressedSize > offset) fail(`ZIP повреждён: неверное расположение файла ${name}`);
+      if (compression === 0 && compressedSize !== originalSize) fail(`ZIP повреждён: неверный размер файла ${name}`);
+      entries.push({ ...path, rawName: new Uint8Array(rawName), flags, compression, crc, compressedSize, originalSize, localOffset });
+      totalSize += originalSize;
+      if (!Number.isSafeInteger(totalSize)) fail('Общий размер ZIP слишком велик.');
+    }
+    for (const entry of entries) for (let i = 1; i < entry.parts.length; i++) {
+      const parent = entry.parts.slice(0, i).join('/').normalize('NFC').toLowerCase();
+      if (seen.get(parent) === false) fail(`Путь одновременно является файлом и каталогом: ${entry.path}`);
+    }
+    const files = entries.filter(e => !e.directory);
+    if (!files.length) fail('ZIP не содержит файлов.');
+    if (files.some(e => e.compression === 8)) {
+      try { new DecompressionStream('deflate-raw'); }
+      catch { fail('Браузер не поддерживает распаковку Deflate. Откройте инструмент в актуальной версии Chrome или Edge.'); }
+    }
+    return { file, entries, files, totalSize, centralOffset: offset };
+  }
+
+  async function verifyArchive(parent, file) {
+    let sibling;
+    try { sibling = await (await parent.getFileHandle(file.name)).getFile(); }
+    catch (error) { if (error.name === 'NotFoundError' || error.name === 'TypeMismatchError') fail(`В выбранной папке нет архива «${file.name}». Выберите папку, в которой находится ZIP.`); throw error; }
+    if (sibling.size !== file.size) fail('В выбранной папке находится другой архив с тем же именем.');
+    const chunk = 1024 * 1024;
+    for (let start = 0; start < file.size; start += chunk) {
+      const [a, b] = await Promise.all([file.slice(start, start + chunk).arrayBuffer(), sibling.slice(start, start + chunk).arrayBuffer()]);
+      const left = new Uint8Array(a), right = new Uint8Array(b);
+      if (left.some((byte, i) => byte !== right[i])) fail('В выбранной папке находится другой архив с тем же именем.');
+    }
+  }
+  async function createDestination(parent, archiveName) {
+    let base = archiveName.replace(/\.zip$/i, '').replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').replace(/[. ]+$/, '').slice(0, 120) || 'Конфигурация';
+    if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(base)) base = '_' + base;
+    for (let n = 0; n < 10000; n++) {
+      const name = base + (n ? ` (${n})` : '');
+      // Check both files and directories; never reuse or overwrite an existing destination.
+      try { await parent.getDirectoryHandle(name); continue; } catch (error) { if (error.name === 'TypeMismatchError') continue; if (error.name !== 'NotFoundError') throw error; }
+      try { await parent.getFileHandle(name); continue; } catch (error) { if (error.name === 'TypeMismatchError') continue; if (error.name !== 'NotFoundError') throw error; }
+      return { name, handle: await parent.getDirectoryHandle(name, { create: true }) };
+    }
+    fail('Не удалось выбрать свободное имя папки для распаковки.');
+  }
+  async function fileStream(archive, entry) {
+    const header = await read(archive.file, entry.localOffset, 30), h = view(header);
+    if (h.getUint32(0, true) !== 0x04034b50 || h.getUint16(8, true) !== entry.compression || h.getUint16(6, true) !== entry.flags) fail(`ZIP повреждён: неверный заголовок ${entry.path}`);
+    const nameSize = h.getUint16(26, true), extraSize = h.getUint16(28, true);
+    const name = await read(archive.file, entry.localOffset + 30, nameSize);
+    if (name.length !== entry.rawName.length || name.some((b, i) => b !== entry.rawName[i])) fail(`ZIP повреждён: имена файла не совпадают (${entry.path}).`);
+    const start = entry.localOffset + 30 + nameSize + extraSize;
+    if (start + entry.compressedSize > archive.centralOffset) fail(`ZIP повреждён: неполные данные ${entry.path}`);
+    let stream = archive.file.slice(start, start + entry.compressedSize).stream();
+    if (entry.compression === 8) stream = stream.pipeThrough(new DecompressionStream('deflate-raw'));
+    return stream;
+  }
+
+  async function extract(archive, parent, progress = () => {}) {
+    await verifyArchive(parent, archive.file);
+    const destination = await createDestination(parent, archive.file.name);
+    const files = []; let completed = 0, bytesWritten = 0;
+    const directories = new Map([['', destination.handle]]);
+    async function getDirectory(parts) {
+      const key = parts.join('/'); if (directories.has(key)) return directories.get(key);
+      const parentHandle = await getDirectory(parts.slice(0, -1));
+      const handle = await parentHandle.getDirectoryHandle(parts.at(-1), { create: true }); directories.set(key, handle); return handle;
+    }
+    try {
+      for (const entry of archive.entries) {
+        if (entry.directory) { await getDirectory(entry.parts); continue; }
+        progress({ completed, total: archive.files.length, bytesWritten, totalSize: archive.totalSize, path: entry.path });
+        const directory = await getDirectory(entry.parts.slice(0, -1));
+        const handle = await directory.getFileHandle(entry.parts.at(-1), { create: true });
+        const writer = await handle.createWritable(); let reader;
+        let actualSize = 0, crc = 0xffffffff;
+        try {
+          reader = (await fileStream(archive, entry)).getReader();
+          while (true) {
+            const chunk = await reader.read(); if (chunk.done) break;
+            actualSize += chunk.value.length;
+            if (actualSize > entry.originalSize) fail(`ZIP повреждён: размер ${entry.path} больше заявленного.`);
+            crc = crcUpdate(crc, chunk.value); await writer.write(chunk.value); bytesWritten += chunk.value.length;
+          }
+          if (actualSize !== entry.originalSize || ((crc ^ 0xffffffff) >>> 0) !== entry.crc) fail(`Ошибка целостности ZIP: ${entry.path}. Размер или CRC32 не совпадает.`);
+          await writer.close();
+        } catch (error) { await reader?.cancel().catch(() => {}); await writer.abort().catch(() => {}); throw error; }
+        files.push({ name: entry.parts.at(-1), relativePath: destination.name + '/' + entry.path, arrayBuffer: async () => (await handle.getFile()).arrayBuffer() });
+        completed++;
+      }
+      progress({ completed, total: archive.files.length, bytesWritten, totalSize: archive.totalSize, path: '' });
+      return { ...destination, files };
+    } catch (error) {
+      // Keep partial output for inspection; never delete a directory recursively on failure.
+      throw new ZipError(`Распаковка не завершена. ${error.message} Неполная папка: ${destination.name}.`);
+    }
+  }
+  async function chooseAndExtract({ pickFile, pickDirectory, parent = null, validate = () => {}, onArchive = () => {}, onParent = () => {}, progress = () => {} }) {
+    const [handle] = await pickFile({
+      id: 'one-c-zip', multiple: false, excludeAcceptAllOption: true,
+      types: [{ description: 'Выгрузка конфигурации 1С (ZIP)', accept: { 'application/zip': ['.zip'] } }],
+      ...(parent ? { startIn: parent } : {})
+    });
+    if (!handle) throw new DOMException('Выбор ZIP отменён.', 'AbortError');
+    if (parent) {
+      try {
+        const sibling = await parent.getFileHandle(handle.name);
+        if (!(await sibling.isSameEntry(handle)) || await parent.queryPermission({ mode: 'readwrite' }) !== 'granted') parent = null;
+      } catch { parent = null; }
+    }
+    // Run the permission picker immediately after file selection, before ZIP reading.
+    // startIn points the picker to the folder that contains the selected ZIP.
+    if (!parent) parent = await pickDirectory({ id: 'one-c-zip-parent', mode: 'readwrite', startIn: handle });
+    const sibling = await parent.getFileHandle(handle.name).catch(error => {
+      if (error.name === 'NotFoundError' || error.name === 'TypeMismatchError') fail(`В выбранной папке нет ZIP «${handle.name}». Выберите папку, в которой он лежит.`);
+      throw error;
+    });
+    if (!(await sibling.isSameEntry(handle))) fail('Выбранная папка не содержит выбранный ZIP. Повторите выбор ZIP и разрешите доступ к его папке.');
+    onParent(parent);
+    const file = await handle.getFile();
+    const archive = await inspect(file);
+    await validate(archive);
+    onArchive(archive);
+    const output = await extract(archive, parent, progress);
+    return { ...output, parent };
+  }
+  return { inspect, extract, chooseAndExtract, safePath, crc32, ZipError };
+});
+</script>
+<script>/* All processing is browser-local. No uploads, analytics, remote fonts or APIs. */
+(() => {
+  'use strict';
+  const A = window.StackAnalyzer;
+  const $ = id => document.getElementById(id);
+  const state = { index: null, rows: [], selected: -1, mode: 'all', busy: false, generation: 0, zipParent: null };
+  let toastTimer;
+  const flagLabels = [
+    ['transaction', 'Транзакция'], ['nestedTransaction', 'Внутри неявной транзакции'],
+    ['attempt', 'Попытка'], ['rollback', 'Отмена транзакции'], ['raises', 'Вызов исключения']
+  ];
+  const formatLabel = formats => formats.map(f => f === 'flat' ? 'линейная' : 'иерархическая').join(' + ');
+  const plural = (number, forms) => forms[(number % 100 >= 11 && number % 100 <= 14) ? 2 : number % 10 === 1 ? 0 : number % 10 >= 2 && number % 10 <= 4 ? 1 : 2];
+  const escape = text => String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function notice(message, error = false) {
+    $('notice').textContent = message;
+    $('notice').className = error ? 'notice error' : 'notice';
+    $('notice').hidden = !message;
+  }
+  function sourceFeedback(message, error = false) {
+    $('source-feedback').textContent = message;
+    $('source-feedback').hidden = !message;
+    $('source-feedback').className = error ? 'source-feedback error' : 'source-feedback';
+  }
+  function toast(text) {
+    document.querySelector('.toast')?.remove();
+    const element = document.createElement('div');
+    element.className = 'toast'; element.setAttribute('role', 'status'); element.textContent = text;
+    document.body.append(element); clearTimeout(toastTimer); toastTimer = setTimeout(() => element.remove(), 3200);
+  }
+  function refreshActions() {
+    // Missing inputs must explain themselves instead of leaving an inert button.
+    $('analyze').disabled = state.busy;
+    const reason = state.busy ? 'Выполняется обработка…' : analysisBlocker();
+    $('analyze').title = reason || 'Построить контекст по выбранным исходникам';
+    $('source-readiness').textContent = reason || 'Исходники и контекст готовы к разбору.';
+    $('source-readiness').className = reason ? 'readiness pending' : 'readiness ready';
+    $('folder').disabled = state.busy;
+    $('choose-folder').disabled = state.busy;
+    $('choose-zip').disabled = state.busy;
+    $('demo').disabled = state.busy;
+    $('context').readOnly = state.busy;
+    $('clear').disabled = state.busy;
+    $('export').disabled = state.busy || !state.rows.length;
+  }
+  function analysisBlocker() {
+    if (!state.index) return 'Сначала выберите каталог выгрузки или ZIP в блоке конфигурации.';
+    if (!state.index.modules) return 'В выбранном каталоге нет модулей. Выберите корневую папку выгрузки 1С.';
+    if (!$('context').value.trim()) return 'Вставьте контекст из 1С.';
+    return '';
+  }
+  function resetResults() {
+    state.generation++; state.rows = []; state.selected = -1;
+    $('rows').replaceChildren(); $('row-count').textContent = '0';
+    $('table-empty').hidden = false; $('summary').textContent = 'Контекст ещё не построен';
+    $('method-title').textContent = 'Текст метода'; $('method-range').textContent = '';
+    $('source-path').textContent = 'Выберите строку в таблице контекста';
+    $('selection-info').textContent = 'Нет выбранного вызова';
+    $('method-error').hidden = true; $('method-error').replaceChildren(); $('code').hidden = false;
+    $('code').innerHTML = '<div class="code-empty"><span aria-hidden="true">↳</span><p>Каждый вызов — в своём контексте</p><span>Текст метода, исходные номера строк и точная позиция вызова.</span></div>';
+    $('copy').disabled = true; $('jump').disabled = true; refreshActions();
+  }
+  function loadFiles(files, name, demo = false) {
+    $('zip-panel').hidden = true;
+    resetResults(); state.index = A.createIndex(files);
+    $('folder-name').textContent = name || 'Выбранный каталог';
+    $('folder-info').textContent = `${state.index.modules.toLocaleString('ru-RU')} ${plural(state.index.modules, ['модуль', 'модуля', 'модулей'])} · ${formatLabel(state.index.formats) || 'формат не определён'}`;
+    $('source-selection').hidden = false;
+    $('source-card').dataset.selection = state.index.modules ? 'ready' : 'error';
+    $('source-selection-label').textContent = demo ? '✓ Демонстрационные исходники' : state.index.modules ? '✓ Каталог выбран' : '⚠ Каталог выбран, модули не найдены';
+    $('selected-directory-path').value = demo ? 'Пример конфигурации' : '…\\' + (name || 'Выбранный каталог').replace(/ \/ /g, '\\');
+    sourceFeedback(state.index.modules ? `Готово. Найдено модулей: ${state.index.modules.toLocaleString('ru-RU')}.` : 'В этой папке нет модулей выгрузки 1С. Выберите корневую папку с исходниками.', !state.index.modules);
+    if (!state.index.modules) notice('В каталоге не найдены модули выгрузки 1С. Выберите корневой каталог с .bsl или линейной выгрузкой .txt.', true);
+    else notice(demo ? 'Открыты демонстрационные исходники и контекст. Для своих данных выберите каталог выгрузки.' : 'Каталог проиндексирован. Вставьте контекст из той же версии конфигурации.');
+    refreshActions();
+  }
+  $('folder').addEventListener('change', event => {
+    const files = [...event.target.files];
+    if (!files.length) return;
+    loadFiles(files, files[0].webkitRelativePath.split('/')[0]);
+  });
+  $('choose-folder').addEventListener('click', async () => {
+    if (state.busy) return;
+    if (!window.showDirectoryPicker) { $('folder').click(); return; }
+    state.busy = true; refreshActions();
+    sourceFeedback('Открывается выбор каталога…');
+    try {
+      const directory = await window.showDirectoryPicker({ id: 'one-c-source-directory', mode: 'read' });
+      notice('Чтение каталога выгрузки…');
+      sourceFeedback(`Выбран «${directory.name}». Чтение содержимого…`);
+      const files = await A.filesFromDirectory(directory, count => {
+        const message = `Чтение каталога: найдено модулей — ${count.toLocaleString('ru-RU')}`;
+        sourceFeedback(message); notice(message);
+      });
+      loadFiles(files, directory.name);
+    } catch (error) {
+      const message = error.name === 'AbortError' ? 'Выбор каталога отменён.' : error.name === 'NotAllowedError' || error.name === 'SecurityError' ? 'Не удалось получить доступ к каталогу. Разрешите чтение выбранной папки в диалоге браузера.' : error.message || 'Не удалось прочитать каталог.';
+      sourceFeedback(message, error.name !== 'AbortError'); notice(message, error.name !== 'AbortError');
+    } finally { state.busy = false; refreshActions(); }
+  });
+  function formatBytes(bytes) {
+    if (bytes >= 1024 ** 3) return (bytes / 1024 ** 3).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + ' ГБ';
+    if (bytes >= 1024 ** 2) return (bytes / 1024 ** 2).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + ' МБ';
+    return Math.ceil(bytes / 1024).toLocaleString('ru-RU') + ' КБ';
+  }
+  $('choose-zip').addEventListener('click', async () => {
+    if (state.busy) return;
+    if (!window.showOpenFilePicker || !window.showDirectoryPicker) {
+      notice('Для автоматической распаковки ZIP рядом с архивом откройте HTML в Chrome или Edge. В этом браузере можно выбрать уже распакованный каталог.', true);
+      return;
+    }
+    state.busy = true; refreshActions();
+    sourceFeedback('Выбор ZIP и автоматическая распаковка…');
+    notice('Выберите ZIP. Если браузер запросит доступ к папке архива, разрешите его — затем распаковка начнётся автоматически.');
+    try {
+      const output = await window.StackZip.chooseAndExtract({
+        pickFile: options => window.showOpenFilePicker(options),
+        pickDirectory: options => window.showDirectoryPicker(options),
+        parent: state.zipParent,
+        onParent: parent => { state.zipParent = parent; },
+        validate: archive => {
+          const index = A.createIndex(archive.files.map(entry => ({ name: entry.parts.at(-1), relativePath: entry.path })));
+          if (!index.modules) throw new Error('В ZIP не найдены модули выгрузки 1С (.bsl или линейные .txt).');
+        },
+        onArchive: archive => {
+          $('zip-panel').hidden = false;
+          $('zip-name').textContent = archive.file.name;
+          $('zip-info').textContent = `${archive.files.length.toLocaleString('ru-RU')} ${plural(archive.files.length, ['файл', 'файла', 'файлов'])} · ${formatBytes(archive.totalSize)} после распаковки`;
+        },
+        progress: progress => notice(`Распаковка: ${progress.completed} / ${progress.total} файлов · ${formatBytes(progress.bytesWritten)} / ${formatBytes(progress.totalSize)}${progress.path ? ' · ' + progress.path : ''}`)
+      });
+      loadFiles(output.files, output.parent.name + ' / ' + output.name);
+      notice(`ZIP распакован рядом с архивом в «${output.parent.name} / ${output.name}». Этот каталог автоматически выбран для разбора контекста.`);
+    } catch (error) {
+      $('zip-panel').hidden = true;
+      sourceFeedback(error.name === 'AbortError' ? 'Выбор ZIP или доступа к папке отменён.' : error.message || 'Не удалось распаковать ZIP.', error.name !== 'AbortError');
+      if (error.name === 'AbortError') notice('Выбор ZIP или доступа к его папке отменён.');
+      else if (error.name === 'NotAllowedError' || error.name === 'SecurityError') notice('Нет доступа к папке архива. Повторно выберите ZIP и разрешите браузеру доступ к его папке.', true);
+      else notice(error.message || 'Не удалось распаковать ZIP.', true);
+    } finally { state.busy = false; refreshActions(); }
+  });
+  $('context').addEventListener('input', () => { if (state.rows.length) resetResults(); notice(''); refreshActions(); });
+  $('clear').addEventListener('click', () => { $('context').value = ''; resetResults(); notice(''); $('context').focus(); });
+  $('context').addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); if (!$('analyze').disabled) analyze(); } });
+  $('analyze').addEventListener('click', analyze);
+
+  async function analyze() {
+    if (state.busy) return;
+    const blocker = analysisBlocker();
+    if (blocker) {
+      notice(blocker, true);
+      if (!state.index?.modules) $('choose-folder').focus();
+      else $('context').focus();
+      return;
+    }
+    resetResults();
+    const generation = state.generation;
+    try {
+      const frames = A.parseContext($('context').value);
+      state.busy = true; refreshActions(); notice('Сопоставление контекста с исходниками…');
+      // Give the browser a chance to paint progress before file reads.
+      await new Promise(resolve => requestAnimationFrame(resolve));
+      const rows = await A.analyzeFrames(frames, state.index, (done, total) => { $('analyze').textContent = `Разбор ${done} / ${total}`; });
+      if (generation !== state.generation) return;
+      state.rows = rows;
+      renderRows();
+      const errors = rows.filter(r => r.status === 'error').length;
+      const mismatch = rows.filter(r => r.error?.code === 'CONFIGURATION_MISMATCH').length;
+      const confirmed = rows.length - errors;
+      $('summary').textContent = `${confirmed} совпало${errors ? ` · ${errors} ${plural(errors, ['ошибка', 'ошибки', 'ошибок'])}` : ' · без ошибок'}`;
+      if (errors) notice(`${mismatch ? 'Несоответствие конфигураций. ' : ''}Не удалось сопоставить ${errors} из ${rows.length} строк. Выберите строку с ошибкой для подробностей.`, true);
+      else notice(`Контекст построен. Совпадений с исходниками: ${rows.length} из ${rows.length}.`);
+      selectRow(errors ? rows.findIndex(r => r.status === 'error') : 0);
+    } catch (error) { notice(error.message || 'Не удалось построить контекст.', true); }
+    finally {
+      state.busy = false;
+      $('analyze').innerHTML = 'Построить контекст <span aria-hidden="true">→</span>';
+      refreshActions();
+    }
+  }
+
+  function renderRows() {
+    $('rows').replaceChildren(); $('table-empty').hidden = state.rows.length > 0;
+    $('row-count').textContent = state.rows.length;
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < state.rows.length; i++) {
+      const row = state.rows[i]; const tr = document.createElement('tr');
+      tr.dataset.index = i; tr.tabIndex = i === 0 ? 0 : -1; tr.setAttribute('aria-selected', 'false');
+      const flags = flagLabels.map(([key, title]) => {
+        const symbol = row.status !== 'ok' ? '?' : row[key] ? '✓' : '—';
+        const label = row.status !== 'ok' ? 'не определено из-за ошибки' : row[key] ? 'обнаружено' : 'не обнаружено';
+        return `<td class="flag-cell"><span class="flag ${row.status !== 'ok' ? 'unknown' : row[key] ? '' : 'no'}" role="img" aria-label="${title}: ${label}" title="${title}: ${label}">${symbol}</span></td>`;
+      }).join('');
+      const status = row.status === 'ok' ? 'Совпадает' : row.error.code === 'CONFIGURATION_MISMATCH' ? 'Несоответствие' : 'Ошибка';
+      tr.innerHTML = `<td>${String(i + 1).padStart(2, '0')}</td><td><div class="module-name">${escape(row.module)}</div><div class="call-text" title="${escape(row.code)}">${escape(row.code)}</div></td><td class="line-number">${row.line}</td>${flags}<td><span class="badge ${row.status !== 'ok' ? 'error' : ''}"><span class="badge-dot"></span>${status}</span></td>`;
+      tr.addEventListener('click', () => selectRow(i));
+      tr.addEventListener('keydown', event => {
+        let next;
+        if (event.key === 'ArrowDown') next = Math.min(state.rows.length - 1, i + 1);
+        if (event.key === 'ArrowUp') next = Math.max(0, i - 1);
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = state.rows.length - 1;
+        if (event.key === 'Enter' || event.key === ' ') next = i;
+        if (next !== undefined) { event.preventDefault(); selectRow(next); $('rows').children[next].focus(); }
+      });
+      fragment.append(tr);
+    }
+    $('rows').append(fragment);
+  }
+
+  function selectRow(index) {
+    state.selected = index;
+    [...$('rows').children].forEach((tr, i) => { tr.setAttribute('aria-selected', String(i === index)); tr.tabIndex = i === index ? 0 : -1; });
+    const row = state.rows[index];
+    if (!row) return;
+    $('method-title').textContent = row.status === 'ok' ? row.method.name : 'Ошибка сопоставления';
+    $('method-range').textContent = row.status === 'ok' ? `${row.method.start}–${row.method.end}` : '';
+    $('source-path').textContent = row.path || row.module;
+    $('selection-info').textContent = `Вызов ${index + 1} из ${state.rows.length} · строка ${row.line}`;
+    $('copy').disabled = row.status !== 'ok'; $('jump').disabled = row.status !== 'ok';
+    $('method-error').hidden = row.status === 'ok'; $('code').hidden = row.status !== 'ok';
+    if (row.status !== 'ok') {
+      const details = row.error.details;
+      let html = `<h3>${escape(row.error.message)}</h3><p>${escape(row.module)} · строка ${row.line}</p>`;
+      if (details.expected !== undefined) html += `<p class="diff-label">В контексте</p><pre>${escape(details.expected)}</pre><p class="diff-label">В выгруженной конфигурации</p><pre>${escape(details.actual)}</pre><p class="diff-label">Выберите выгрузку той версии, в которой был получен контекст.</p>`;
+      if (details.paths) html += `<pre>${escape(details.paths.join('\n'))}</pre>`;
+      $('method-error').innerHTML = html;
+    } else { renderCode(row); }
+  }
+
+  const keywords = new Set('процедура функция конецпроцедуры конецфункции если тогда иначе иначеесли конецесли для каждого из цикл конеццикла пока попытка исключение конецпопытки вызватьисключение возврат новый неопределено истина ложь экспорт и или не procedure function endprocedure endfunction if then else elsif endif for each in do enddo while try except endtry raise return new undefined true false export and or not'.split(' '));
+  const builtins = new Set('начатьтранзакцию зафиксироватьтранзакцию отменитьтранзакцию begintransaction committransaction rollbacktransaction'.split(' '));
+  function highlight(line, stringState) {
+    // Carry the string state across lines of multiline literals, including omitted lines in filtered modes.
+    let result = '', i = 0;
+    while (i < line.length) {
+      if (stringState.open || line[i] === '"') {
+        const start = i;
+        if (!stringState.open) { stringState.open = true; i++; }
+        while (i < line.length) {
+          if (line[i] === '"') { if (line[i + 1] === '"') { i += 2; continue; } i++; stringState.open = false; break; }
+          i++;
+        }
+        result += `<span class="syntax-string">${escape(line.slice(start, i))}</span>`;
+      } else if (line.slice(i, i + 2) === '//') { result += `<span class="syntax-comment">${escape(line.slice(i))}</span>`; break; }
+      else {
+        const word = line.slice(i).match(/^[\p{L}_][\p{L}\p{N}_]*/u);
+        if (word) {
+          const value = word[0], key = value.toLowerCase();
+          const style = keywords.has(key) ? 'syntax-keyword' : builtins.has(key) ? 'syntax-builtin' : '';
+          result += style ? `<span class="${style}">${escape(value)}</span>` : escape(value);
+          i += value.length;
+        } else { result += escape(line[i++]); }
+      }
+    }
+    return result;
+  }
+  function renderCode(row) {
+    const visible = A.visibleCode(row, state.mode);
+    const stringState = { open: false };
+    const colored = new Map();
+    // Start at file beginning so strings spanning the selected method's boundary are treated consistently.
+    for (let n = 1; n <= row.method.end; n++) {
+      const rendered = highlight(row.lines[n - 1], stringState);
+      if (n >= row.method.start) colored.set(n, rendered);
+    }
+    $('code').innerHTML = visible.map(line => line.gap ? '<div class="code-line gap"><span class="code-gutter">···</span><span class="code-text">…</span></div>' :
+      `<div class="code-line${line.target ? ' target' : ''}"${line.target ? ' id="target-line" aria-label="Строка вызова"' : ''}><span class="code-gutter"><span class="line-arrow">${line.target ? '→' : ''}</span><span>${line.line}</span></span><span class="code-text">${colored.get(line.line) || ' '}</span></div>`).join('');
+    jumpToLine();
+  }
+  function jumpToLine() {
+    const line = $('target-line');
+    if (!line) return;
+    const pane = $('code');
+    pane.scrollTop = line.offsetTop - pane.offsetTop - pane.clientHeight / 2 + line.clientHeight / 2;
+  }
+  $('jump').addEventListener('click', jumpToLine);
+  document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
+    state.mode = button.dataset.mode;
+    document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    const row = state.rows[state.selected];
+    if (row?.status === 'ok') renderCode(row);
+  }));
+  $('copy').addEventListener('click', async () => {
+    const row = state.rows[state.selected];
+    if (row?.status !== 'ok') return;
+    const text = row.lines.slice(row.method.start - 1, row.method.end).join('\n');
+    try {
+      if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+      else {
+        const area = document.createElement('textarea'); area.value = text; area.setAttribute('aria-label', 'Копирование метода');
+        document.body.append(area); area.select();
+        const copied = document.execCommand('copy'); area.remove();
+        if (!copied) throw new Error('copy');
+      }
+      toast('Текст метода скопирован');
+    } catch { toast('Копирование недоступно. Выделите текст метода и нажмите Ctrl+C.'); }
+  });
+  $('export').addEventListener('click', () => {
+    const quote = value => {
+      let str = String(value ?? '');
+      // Prevent formulas when opening the CSV in a spreadsheet.
+      if (/^[=+\-@\t\r]/.test(str)) str = "'" + str;
+      return '"' + str.replace(/"/g, '""') + '"';
+    };
+    const lines = [['№', 'Модуль', 'Строка', 'Текст вызова', ...flagLabels.map(f => f[1]), 'Соответствие', 'Файл', 'Ошибка']];
+    state.rows.forEach((row, i) => lines.push([i + 1, row.module, row.line, row.code, ...flagLabels.map(([key]) => row.status !== 'ok' ? '' : row[key] ? 'Да' : 'Нет'), row.status === 'ok' ? 'Совпадает' : 'Ошибка', row.path || '', row.error?.message || '']));
+    const blob = new Blob(['\uFEFF' + lines.map(line => line.map(quote).join(';')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const link = document.createElement('a'); const url = URL.createObjectURL(blob); link.href = url; link.download = 'Контекст-транзакций.csv';
+    document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  $('demo').addEventListener('click', async () => {
+    const files = window.StackDemo.files.map(source => {
+      const file = new File([source.text], source.path.split('/').at(-1), { type: 'text/plain' });
+      Object.defineProperty(file, 'relativePath', { value: source.path }); return file;
+    });
+    $('folder').value = ''; $('context').value = window.StackDemo.context;
+    loadFiles(files, 'Пример конфигурации', true); await analyze();
+    notice('Демонстрационный контекст построен. Для своих данных выберите каталог и замените текст контекста.');
+  });
+  $('help').addEventListener('click', () => $('help-dialog').showModal());
+  $('close-help').addEventListener('click', () => $('help-dialog').close());
+  $('help-dialog').addEventListener('click', event => { if (event.target === $('help-dialog')) { const r = event.target.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) event.target.close(); } });
+  refreshActions();
+})();
+</script>
+</body>
+</html>

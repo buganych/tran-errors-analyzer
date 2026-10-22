@@ -1,0 +1,7 @@
+{
+  "name": "transaction-stack-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Локальный анализ контекста 1С по исходникам конфигурации",
+  "scripts": { "build": "node build-standalone.cjs", "test": "node --test tests/*.test.cjs", "start": "node preview.cjs" }
+}

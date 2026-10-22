@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; script-src 'self' file:; style-src 'self' file:; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Контекст · Поиск транзакций 1С</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="engine.js"></script>
+  <script defer src="demo.js"></script>
+  <script defer src="zip.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-icon" aria-hidden="true">↳</span><span>Контекст<span class="brand-divider">/</span><span class="brand-subtitle">анализ транзакций 1С</span></span></a>
+    <div class="header-right"><span class="local-label"><span class="status-dot"></span>Локально в браузере</span><button id="help" class="icon-button" aria-label="Открыть справку">?</button></div>
+  </header>
+
+  <main>
+    <div class="page-intro"><div><p class="eyebrow">ИСХОДНИКИ → СТЕК → МЕТОД</p><h1>От контекста к коду</h1><p class="subtitle">Найдите границы транзакции и обработку исключений в стеке вызовов.</p></div><button id="demo" class="button secondary">Открыть пример <span aria-hidden="true">↗</span></button></div>
+
+    <section class="input-panel" aria-label="Исходные данные">
+      <div id="source-card" class="folder-panel">
+        <div class="section-label"><span class="step">01</span>Выгруженная конфигурация</div>
+        <div class="folder-illustration" aria-hidden="true"><svg viewBox="0 0 48 40" width="44" height="38" fill="none"><path d="M4 11V7a3 3 0 0 1 3-3h12l5 5h17a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V11Z" stroke="currentColor" stroke-width="1.7"/><path d="M4 14h40M18 24h12M24 18v12" stroke="currentColor" stroke-width="1.7"/></svg></div>
+        <p id="folder-name" class="folder-name">Выберите каталог или ZIP</p>
+        <p id="folder-info" class="muted small">Иерархическая или линейная структура.<br>Формат определяется автоматически.</p>
+        <div id="source-selection" class="selection-summary" hidden><p id="source-selection-label" class="selection-label">✓ Каталог выбран</p><label for="selected-directory-path" class="selection-path-label">Путь к исходникам</label><input id="selected-directory-path" class="selection-path" type="text" readonly aria-describedby="selected-path-note"><span id="selected-path-note" class="muted small">Путь от выбранной папки. Полный путь на диске браузер скрывает.</span></div>
+        <p id="source-feedback" class="source-feedback" role="status" aria-live="polite" hidden></p>
+        <div class="source-buttons"><button id="choose-folder" class="button secondary folder-button">Каталог <span aria-hidden="true">…</span></button><button id="choose-zip" class="button secondary zip-button">ZIP <span aria-hidden="true">↓</span></button></div>
+        <input type="file" id="folder" webkitdirectory multiple aria-label="Каталог выгруженной конфигурации">
+        <div id="zip-panel" class="zip-panel" hidden><p id="zip-name" class="folder-name"></p><p id="zip-info" class="muted small"></p><p class="muted small">Распаковка запущена автоматически. Полученный каталог будет выбран после завершения.</p></div>
+        <p class="privacy-note">Исходники остаются на вашем компьютере.</p>
+      </div>
+      <div class="context-panel">
+        <div class="context-heading"><label class="section-label" for="context"><span class="step">02</span>Контекст из 1С</label><button id="clear" class="text-button">Очистить</button></div>
+        <textarea id="context" spellcheck="false" aria-describedby="context-hint" placeholder="ОбщийМодуль.ИмяМодуля.Модуль:42:ВыполнитьОперацию();&#10;Документ.ИмяДокумента.МодульОбъекта:18:ОбработатьДанные();"></textarea>
+        <div class="input-actions"><p id="context-hint" class="muted small">Вставьте стек с номерами строк и текстом вызовов.<br><kbd>Ctrl</kbd> + <kbd>Enter</kbd> — построить контекст.<span id="source-readiness" class="readiness pending" role="status" aria-live="polite">Сначала выберите каталог выгрузки или ZIP в блоке конфигурации.</span></p><button id="analyze" class="button primary">Построить контекст <span aria-hidden="true">→</span></button></div>
+      </div>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="results-panel" aria-labelledby="results-title">
+      <div class="panel-toolbar"><div class="panel-title"><h2 id="results-title">Стек вызовов</h2><span id="row-count" class="count">0</span></div><div class="results-actions"><span id="summary" class="muted small">Контекст ещё не построен</span><button id="export" class="text-button" disabled>Экспорт CSV ↓</button></div></div>
+      <div class="table-wrap">
+        <table id="stack-table"><caption class="sr-only">Строки контекста и признаки транзакций. Выберите строку для просмотра метода.</caption><thead><tr><th scope="col">№</th><th scope="col" class="module-column">Модуль / строка вызова</th><th scope="col">Строка</th><th scope="col"><abbr title="Статический признак явной транзакции вокруг строки или неявной транзакции записи / проведения">Транзакция</abbr></th><th scope="col"><abbr title="Явная транзакция в методе проведения или на строке записи">Внутри неявной</abbr></th><th scope="col"><abbr title="Строка находится внутри блока Попытка / Исключение">Попытка</abbr></th><th scope="col"><abbr title="В обработчике охватывающей попытки есть ОтменитьТранзакцию; либо это текущая строка">Отмена</abbr></th><th scope="col"><abbr title="В обработчике охватывающей попытки есть ВызватьИсключение">Вызов исключения</abbr></th><th scope="col">Соответствие</th></tr></thead><tbody id="rows"></tbody></table>
+        <div id="table-empty" class="empty-state"><span class="empty-icon" aria-hidden="true">≡</span><p>Здесь появится стек вызовов</p><span>Выберите каталог и вставьте контекст, чтобы начать разбор.</span></div>
+      </div>
+      <div class="table-footer"><span><span class="legend-check">✓</span> признак обнаружен <span class="legend-dash">—</span> не обнаружен <span class="legend-unknown">?</span> ошибка сопоставления</span><span>Признаки определяются по тексту кода, без исполнения.</span></div>
+    </section>
+
+    <section class="code-panel" aria-labelledby="method-title">
+      <div class="panel-toolbar code-toolbar"><div class="method-heading"><div class="panel-title"><span class="code-symbol" aria-hidden="true">{ }</span><h2 id="method-title">Текст метода</h2><span id="method-range" class="muted small"></span></div><p id="source-path" class="source-path">Выберите строку в таблице контекста</p></div><button id="copy" class="text-button" disabled>Копировать метод</button></div>
+      <div class="code-options"><div class="segmented" role="group" aria-label="Режим просмотра кода"><button data-mode="all" aria-pressed="true">Весь метод</button><button data-mode="keywords" aria-pressed="false">Ключевые строки</button><button data-mode="exceptions" aria-pressed="false">С обработчиками</button></div><button id="jump" class="text-button" disabled>К строке вызова <span aria-hidden="true">↓</span></button></div>
+      <div id="method-error" class="method-error" hidden></div>
+      <div id="code" class="code-view" tabindex="0" role="region" aria-label="Исходный код метода"><div class="code-empty"><span aria-hidden="true">↳</span><p>Каждый вызов — в своём контексте</p><span>Текст метода, исходные номера строк и точная позиция вызова.</span></div></div>
+      <div class="code-footer"><span id="selection-info">Нет выбранного вызова</span><span><span class="arrow-legend">→</span> строка из контекста 1С</span></div>
+    </section>
+
+    <footer class="page-footer"><span>Контекст · 1С · версия 1.3</span><span>Без установки, сервера и отправки файлов</span><a href="https://its.1c.ru/db/v851doc#bookmark:dev:TI000001893" target="_blank" rel="noreferrer">Форматы выгрузки ↗</a></footer>
+  </main>
+
+  <dialog id="help-dialog"><div class="dialog-header"><h2>Как работать с контекстом</h2><button id="close-help" class="icon-button" aria-label="Закрыть справку">×</button></div><ol><li>Выгрузите конфигурацию в файлы и выберите корневой каталог выгрузки. Если выгрузок несколько, выбирайте каталог только одной конфигурации.</li><li>Вставьте строки стека в формате <code>ОбщийМодуль.Имя.Модуль:42:Вызов();</code> или <code>{ОбщийМодуль.Имя.Модуль(42)}: Вызов();</code>. Допускается разделение строками или точкой с запятой.</li><li>Нажмите «Построить контекст». Выберите вызов в таблице — внизу откроется метод со стрелкой на исходной строке. По таблице можно перемещаться клавишами ↑ и ↓.</li></ol><h3>Проверка версии</h3><p>Номер строки и её текст должны совпадать с выгрузкой. Игнорируются только пробелы по краям текста. При отличии показывается ошибка «Несоответствие конфигураций» и оба текста. Поиск похожей строки вместо указанной не выполняется.</p><h3>Как читать признаки</h3><p>Это статические признаки по тексту метода: начало транзакции до вызова и завершение после него; охватывающие блоки попытки и их обработчики. Вызовы записи и методы проведения отмечаются как возможная неявная транзакция. Комментарии и строковые литералы исключаются из анализа. Ветви условий, циклы, директивы компиляции и вызываемые методы не исполняются: флажки не доказывают фактическое состояние транзакции в сеансе.</p><h3>Файлы и форматы</h3><p>Поддерживаются иерархические выгрузки с файлами <code>.bsl</code> и линейные с модулями <code>.txt</code>, в UTF-8 и UTF-16. Формат определяется по путям файлов. При выборе ZIP распаковка запускается автоматически. Браузер может сначала запросить доступ к папке с архивом: диалог сразу откроется рядом с выбранным ZIP. Разрешение необходимо для записи распакованных файлов. Пока страница открыта, уже разрешённая папка используется повторно. Архив распакуется в новую папку с его именем; если такая папка уже существует, к имени добавится номер. Каталог распаковки выберется автоматически. Поддерживаются ZIP / ZIP64 со сжатием Deflate или без сжатия; архивы с паролем не поддерживаются. Для записи на диск используйте Chrome или Edge. Каталог выбирается заново после перезагрузки страницы; исходники читаются только для модулей из стека.</p></dialog>
+</body>
+</html>
